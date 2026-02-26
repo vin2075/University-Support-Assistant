@@ -1,9 +1,9 @@
 """
-server.py — Production-Grade RAG Chat Backend (Render Safe)
+server.py — Production-Grade RAG Chat Backend (Render Optimized)
 ------------------------------------------------------------------
-- Embeddings: local sentence-transformers
+- Embeddings: local sentence-transformers (lazy loaded)
 - LLM:        OpenRouter only
-- Startup-safe (no heavy import-time execution)
+- Safe for small cloud instances
 """
 
 import json
@@ -27,9 +27,8 @@ sys.path.insert(0, str(BASE_DIR))
 from utils.vector_math import top_k_similar
 
 # ── App ──────────────────────────────────────────────────────────────────────
-app = FastAPI(title="University RAG Assistant", version="1.0.1")
+app = FastAPI(title="University RAG Assistant", version="1.1.0")
 
-# ── CORS ─────────────────────────────────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -41,9 +40,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ── Globals (initialized on startup) ─────────────────────────────────────────
+# ── Globals (lazy loaded) ────────────────────────────────────────────────────
 embedding_model = None
-vector_store = []
+vector_store = None
 sessions: dict[str, list] = {}
 
 # ── Environment ──────────────────────────────────────────────────────────────
@@ -79,27 +78,29 @@ FALLBACK_TEXT = (
     "Please contact the university directly."
 )
 
-# ── Startup Event ────────────────────────────────────────────────────────────
-@app.on_event("startup")
-async def startup_event():
-    global embedding_model, vector_store
+# ── Lazy Loaders ─────────────────────────────────────────────────────────────
+def get_embedding_model():
+    global embedding_model
+    if embedding_model is None:
+        print("📦 Loading embedding model...")
+        embedding_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
+        print("✅ Embedding model ready.")
+    return embedding_model
 
-    print("🚀 Starting application...")
 
-    print(f"📦 Loading embedding model '{EMBEDDING_MODEL_NAME}' ...")
-    embedding_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
-    print("✅ Embedding model loaded.")
+def get_vector_store():
+    global vector_store
+    if vector_store is None:
+        print("📂 Loading vector store...")
+        if not VECTOR_STORE_PATH.exists():
+            raise FileNotFoundError(
+                f"Vector store not found at {VECTOR_STORE_PATH}. Run ingest first."
+            )
+        with open(VECTOR_STORE_PATH, "r", encoding="utf-8") as f:
+            vector_store = json.load(f)
+        print(f"✅ Loaded {len(vector_store)} chunks.")
+    return vector_store
 
-    if not VECTOR_STORE_PATH.exists():
-        raise FileNotFoundError(
-            f"Vector store not found at {VECTOR_STORE_PATH}. Run ingest first."
-        )
-
-    with open(VECTOR_STORE_PATH, "r", encoding="utf-8") as f:
-        vector_store = json.load(f)
-
-    print(f"✅ Loaded {len(vector_store)} vector chunks.")
-    print("🎉 Application startup complete.")
 
 # ── Schemas ──────────────────────────────────────────────────────────────────
 class ChatRequest(BaseModel):
@@ -116,6 +117,7 @@ class ChatRequest(BaseModel):
             raise ValueError("Message too long.")
         return v
 
+
 class ChatResponse(BaseModel):
     reply: str
     tokensUsed: int
@@ -123,15 +125,20 @@ class ChatResponse(BaseModel):
     scores: list[float]
     sessionId: str
 
-# ── Helper Functions ─────────────────────────────────────────────────────────
+
+# ── Core Logic ───────────────────────────────────────────────────────────────
 def embed_query(text: str) -> list[float]:
     try:
-        return embedding_model.encode(text, normalize_embeddings=True).tolist()
+        model = get_embedding_model()
+        return model.encode(text, normalize_embeddings=True).tolist()
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Embedding error: {e}")
 
+
 def retrieve_chunks(query_vector: list[float]) -> list[dict]:
-    return top_k_similar(query_vector, vector_store, k=TOP_K, threshold=SIMILARITY_THRESHOLD)
+    store = get_vector_store()
+    return top_k_similar(query_vector, store, k=TOP_K, threshold=SIMILARITY_THRESHOLD)
+
 
 def build_messages(retrieved, history, question):
     context = "\n\n".join(
@@ -146,6 +153,7 @@ def build_messages(retrieved, history, question):
         "content": f"RETRIEVED CONTEXT:\n{context}\n\nUSER QUESTION: {question}\n\nANSWER:"
     })
     return messages
+
 
 def call_openrouter(messages):
     try:
@@ -166,19 +174,21 @@ def call_openrouter(messages):
     except APIError as e:
         raise HTTPException(status_code=502, detail=str(e))
 
+
 # ── Routes ───────────────────────────────────────────────────────────────────
 @app.get("/")
 def root():
     return {"status": "University RAG Assistant running"}
 
+
 @app.get("/api/health")
 def health():
     return {
         "status": "ok",
-        "chunksLoaded": len(vector_store),
         "llmModel": LLM_MODEL,
         "embeddingModel": EMBEDDING_MODEL_NAME,
     }
+
 
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
@@ -204,11 +214,13 @@ async def chat(req: ChatRequest):
         sessionId=req.sessionId,
     )
 
+
 @app.post("/api/session/new")
 def new_session():
     sid = str(uuid.uuid4())
     sessions[sid] = []
     return {"sessionId": sid}
+
 
 @app.delete("/api/session/{session_id}")
 def clear_session(session_id: str):
