@@ -29,15 +29,21 @@ from utils.vector_math import top_k_similar
 # ── App ──────────────────────────────────────────────────────────────────────
 app = FastAPI(title="University RAG Assistant", version="1.1.0")
 
+FRONTEND_URL = os.getenv("FRONTEND_URL", "")
+
+allowed_origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+if FRONTEND_URL:
+    allowed_origins.append(FRONTEND_URL.rstrip("/"))
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-    ],
+    allow_origins=allowed_origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "DELETE"],
+    allow_headers=["Content-Type", "Authorization"],
 )
 
 # ── Globals (lazy loaded) ────────────────────────────────────────────────────

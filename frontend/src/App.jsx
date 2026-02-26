@@ -2,6 +2,7 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import ChatWindow from "./components/ChatWindow";
 import Sidebar from "./components/Sidebar";
+import { sendMessage, clearSession } from "./api";
 
 const SESSION_KEY = "rag_session_id";
 
@@ -28,7 +29,6 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [lastMeta,  setLastMeta]  = useState(null);
 
-  // ── Send a message (used by InputBar AND suggested questions) ──────────────
   const handleSend = async (text) => {
     if (!text.trim() || isLoading) return;
 
@@ -39,13 +39,7 @@ export default function App() {
     setIsLoading(true);
 
     try {
-      const res  = await fetch("/api/chat", {
-        method:  "POST",
-        headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({ sessionId, message: text }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || "Server error " + res.status);
+      const data = await sendMessage(sessionId, text);
 
       setMessages((prev) => [
         ...prev,
@@ -70,19 +64,17 @@ export default function App() {
     }
   };
 
-  // ── New chat ───────────────────────────────────────────────────────────────
   const handleNewChat = () => {
     const newId = uuidv4();
     localStorage.setItem(SESSION_KEY, newId);
     setSessionId(newId);
     setMessages([{ ...WELCOME, id: uuidv4(), timestamp: new Date().toISOString() }]);
     setLastMeta(null);
-    fetch(`/api/session/${newId}`, { method: "DELETE" }).catch(() => {});
+    clearSession(newId).catch(() => {});
   };
 
   return (
     <div className="flex h-screen bg-slate-100 overflow-hidden">
-      {/* Pass onSend so suggested questions can trigger it */}
       <Sidebar
         sessionId={sessionId}
         onNewChat={handleNewChat}
