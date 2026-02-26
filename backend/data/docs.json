@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "title": "Academic Integrity Policy",
+    "content": "The university upholds a strict academic integrity policy. All students must submit original work and properly cite all sources using APA, MLA, or Chicago style formats. Plagiarism, cheating, fabrication of data, contract cheating, AI-generated submissions without disclosure, and unauthorized collaboration are considered violations. First-time minor offenses may result in a zero on the assignment and mandatory integrity training. Serious or repeat violations may result in suspension, transcript notation, or permanent expulsion. The university uses Turnitin plagiarism detection software for all written submissions over 500 words. Students must sign an academic integrity pledge before submitting major projects. Accused students may appeal to the Academic Integrity Committee within 10 business days. Appeals require documented evidence such as draft versions, research notes, version history logs, and communication records. The appeal review process typically takes 3–5 weeks."
+  },
+  {
+    "id": "2",
+    "title": "Attendance and Absence Policy",
+    "content": "Regular attendance is mandatory for all registered courses. Students are allowed up to three unexcused absences per semester without grade penalty. Each additional unexcused absence beyond three reduces the final grade by 2%. More than six unexcused absences may result in administrative withdrawal. Excused absences include documented medical emergencies, religious observances, university-sponsored competitions, jury duty, and immediate family bereavement. Documentation must be submitted to the Registrar within 48 hours of returning to class. Students are responsible for reviewing lecture recordings, slides, and missed assignments. Professors are not required to reteach lectures but must provide instructional materials. Chronic absenteeism may trigger academic advising intervention."
+  },
+  {
+    "id": "3",
+    "title": "Tuition Payment and Financial Aid",
+    "content": "Undergraduate tuition is $18,500 per semester and graduate tuition is $22,000 per semester. Payment deadlines are the 15th of the month prior to semester start. Late payments incur a $150 fee. Balances exceeding $500 block registration and transcript access. Students may enroll in a four-installment payment plan with a $75 administrative fee. Financial aid disbursements occur within the first two weeks of the semester. Merit scholarships require maintaining a 2.0 cumulative GPA. Need-based aid requires annual FAFSA submission. Students experiencing hardship may apply for emergency grants up to $1,000 through the Financial Aid Office. Refunds due to overpayment are processed within 7–10 business days."
+  },
+  {
+    "id": "4",
+    "title": "Password Reset and IT Account Access",
+    "content": "Students can reset their university portal password by visiting account.university.edu and clicking 'Forgot Password.' A verification link is sent to the registered personal email and expires after 30 minutes. After five failed login attempts, accounts are locked for 15 minutes. Two-factor authentication (2FA) is mandatory and supports authenticator apps or SMS codes. Students who lose access to their email must visit the IT Help Desk with government-issued ID. IT Help Desk hours are Monday–Friday 8 AM–6 PM and Saturday 10 AM–2 PM. The IT department will never ask for your password. Phishing attempts should be reported to it-security@university.edu."
+  },
+  {
+    "id": "5",
+    "title": "Library Resources and Borrowing Policy",
+    "content": "The university library operates 7 AM–11 PM daily and 24 hours during finals week. Students may borrow up to 10 books for 21 days and renew twice online. Late fees are $0.25 per day per book. Items overdue beyond 60 days are considered lost and charged replacement cost plus $20 processing. Reserve items have a 2-hour borrowing limit. Digital access includes 50,000+ journals and research databases. Remote access requires valid student credentials. Inter-library loan requests take 5–10 business days. Study rooms may be reserved for up to 3 hours per day."
+  },
+  {
+    "id": "6",
+    "title": "Campus Housing and Dormitory Rules",
+    "content": "First-year undergraduates must live on campus unless commuting from within 30 miles. Housing applications open February 1. Quiet hours are 10 PM–8 AM weekdays and 12 AM–10 AM weekends. Guests must register at the front desk. Overnight guests may stay three consecutive nights and no more than six nights monthly. Pets are prohibited except approved service or emotional support animals. Violations may result in warnings, fines, or eviction. Fire safety violations such as candles, open flames, or tampering with smoke detectors result in immediate disciplinary review."
+  },
+  {
+    "id": "7",
+    "title": "Grading Scale and GPA Calculation",
+    "content": "The university uses a 4.0 GPA scale. A (93–100)=4.0, A- (90–92)=3.7, B+ (87–89)=3.3, B (83–86)=3.0, B- (80–82)=2.7, C+ (77–79)=2.3, C (73–76)=2.0, C- (70–72)=1.7, D+ (67–69)=1.3, D (60–66)=1.0, F (below 60)=0.0. GPA is calculated by multiplying grade points by credit hours and dividing by total credits attempted. Incomplete (I) must be resolved next semester or converts to F. Withdrawal (W) has no GPA impact. Academic probation requires achieving 2.5 semester GPA for good standing."
+  },
+  {
+    "id": "8",
+    "title": "Student Health and Counseling Services",
+    "content": "The Student Health Center (Building C) operates Monday–Friday 8 AM–5 PM. Services include vaccinations, physical exams, and minor illness treatment at no extra cost. Counseling services provide up to 12 free therapy sessions per year. Crisis counseling is available 24/7 at 1-800-HELP-NOW. Prescription medications are available at discounted campus pharmacy rates. Students may access TimelyCare telehealth services online."
+  },
+  {
+    "id": "9",
+    "title": "Course Registration and Drop/Add Policy",
+    "content": "Registration begins 8 weeks before semester start. Add/Drop period is the first two weeks. Full tuition refund before week 2; 75% refund week 3; 50% refund week 4; none after week 5. Prerequisites require grade C or higher. Maximum course load is 18 credits without dean approval."
+  },
+  {
+    "id": "10",
+    "title": "Campus Parking and Transportation",
+    "content": "Student parking permits cost $350 for commuter lots and $500 for premium lots. Vehicles without permits receive $75 fines. Repeated violations may result in towing. Free shuttle service runs every 15 minutes from 7 AM–11 PM weekdays. EV charging requires $50 annual add-on permit."
+  },
+  {
+    "id": "11",
+    "title": "Code of Conduct and Disciplinary Procedures",
+    "content": "Students must adhere to the university Code of Conduct covering harassment, discrimination, alcohol misuse, drug violations, and disruptive behavior. Reports may be filed anonymously through the Ethics Hotline. Investigations are handled by the Office of Student Affairs. Sanctions range from warnings to suspension or expulsion. Students have the right to a hearing and may bring an advisor."
+  },
+  {
+    "id": "12",
+    "title": "Internships and Career Services",
+    "content": "The Career Services Office assists students with resume reviews, interview preparation, and internship placement. Internship credits require departmental approval and a minimum GPA of 2.5. Career fairs are hosted twice per year. Students may access job postings via the university career portal."
+  }
+]

@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.env.local
+frontend/.env.production
+
+# Keep vector_store.json — Render needs it at build time
+# Do NOT gitignore backend/data/vector_store.json
+
+# OS
+.DS_Store
+Thumbs.db
